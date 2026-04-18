@@ -15,7 +15,7 @@ namespace ShoppingProducts.Service
         public async Task<Guid> CreateProduct(ProductDto product)
         {
             var data = new Product{Name=product.Name, Description = product.Description, Price = product.Price};
-            _productDb.Add(data);
+            _productDb.Add(data); 
             await _productDb.SaveChangesAsync();
             return data.Id;
         }
