@@ -1,16 +1,19 @@
 using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingProducts.Domain;
 using ShoppingProducts.Service;
 
 namespace ShoppingProducts.API
 {
+    [ApiVersion(1, Deprecated = true)]
+    [ApiVersion(2)]
     [ApiController]
-    [Route("Api/Product")]
+    [Route("Api/v{version:apiVersion}/Product")]
     public class ProductController: ControllerBase
     {
-        private ProductService _productService;
-        public ProductController(ProductService productService)
+        private ProductService _productService; // reference
+        public ProductController(ProductService productService) // instance
         {
             _productService = productService;
         }
@@ -18,6 +21,7 @@ namespace ShoppingProducts.API
         [HttpPost("")]
         public async Task<IActionResult> AddProduct(ProductDto product)
         {
+            // var Service = new ProductService();
             try
             {
                 var id = await _productService.CreateProduct(product);
@@ -28,6 +32,7 @@ namespace ShoppingProducts.API
             }
         }
 
+        [MapToApiVersion(1)]
         [HttpGet("")]
         public IActionResult GetProducts()
         {
@@ -41,6 +46,7 @@ namespace ShoppingProducts.API
             }
         }
 
+        [MapToApiVersion(2)]
         [HttpGet("{id}")]
         public IActionResult GetProductById(string id)
         {
