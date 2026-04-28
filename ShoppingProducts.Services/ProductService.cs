@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using ShoppingProducts.API;
 using ShoppingProducts.Domain;
+using ShoppingProducts.Domain.Entity;
 
 namespace ShoppingProducts.Service
 {
@@ -15,9 +16,23 @@ namespace ShoppingProducts.Service
         public async Task<Guid> CreateProduct(ProductDto product)
         {
             var data = new Product{Name=product.Name, Description = product.Description, Price = product.Price};
-            _productDb.Add(data); 
+            
+            // create product
+            var NewProduct = _productDb.Products.Add(data); 
             await _productDb.SaveChangesAsync();
-            return data.Id;
+            // create category if not available
+            foreach(string category in product.Categories)
+            {
+                if (_productDb.Categories.SingleOrDefault(cat => cat.Name == category) == null)
+                {
+                    _productDb.Categories.Add(new Category{Name=category});
+                }
+            }
+
+            // Add inventory with product id.
+            _productDb.Inventories.Add(new Inventory { ProductId = NewProduct.Entity.Id, StockCount = product.StockCount});
+            await _productDb.SaveChangesAsync();
+            return NewProduct.Entity.Id;
         }
 
         public IEnumerable<Product> GetProducts()

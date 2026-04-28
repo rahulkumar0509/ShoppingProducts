@@ -21,7 +21,6 @@ namespace ShoppingProducts.API
         [HttpPost("")]
         public async Task<IActionResult> AddProduct(ProductDto product)
         {
-            // var Service = new ProductService();
             try
             {
                 var id = await _productService.CreateProduct(product);

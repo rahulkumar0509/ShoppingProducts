@@ -6,3 +6,4 @@ ShoppingProducts.Tests/obj/**/*.*
 ShoppingProducts.Tests/TestingResults/
 ShoppingProducts.Tests/TestResults/*/*.*.*
 obj/Debug/net8.0/ShoppingProducts.AssemblyInfoInputs.cache
+ShoppingProducts.API/Migrations/*.*
