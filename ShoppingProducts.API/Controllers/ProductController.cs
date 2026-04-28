@@ -34,7 +34,7 @@ namespace ShoppingProducts.API
 
         [MapToApiVersion(1)]
         [HttpGet("")]
-        public IActionResult GetProducts()
+        public IActionResult GetAllProducts()
         {
             try
             {

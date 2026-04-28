@@ -66,3 +66,6 @@ app.MapControllers();
 app.UseCors("uiApp");
 
 app.Run();
+
+// for integration testing, we need program class so making ti accessible since by default its internal.
+public partial class Program{}
