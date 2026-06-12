@@ -9,5 +9,6 @@ namespace ShoppingProducts.Domain
         public required float Price {get; set;}
         public required List<string> Categories {get; set;}
         public required int StockCount {get; set;}
+        public required Guid BrandId {get; set;}
     }
 }

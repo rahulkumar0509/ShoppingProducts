@@ -1,5 +1,7 @@
 using Asp.Versioning;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
 using ShoppingProducts.API;
 using ShoppingProducts.Service;
 
@@ -14,8 +16,13 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddDbContext<ProductDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    // option
+    // // .UseLazyLoadingProxies()
+    // .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    option.UseNpgsql(builder.Configuration.GetConnectionString("postgres"));
 });
+
+builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration, "AzureAd");
 
 // CORS Policy
 builder.Services.AddCors(options =>
@@ -27,6 +34,19 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+// add rabbitmq mass transit
+// builder.Services.AddMassTransit(x =>
+// {
+//     x.UsingRabbitMq((context, config) =>
+//     {
+//         config.Host("localhost", "/", h =>
+//         {
+//             h.Username("guest");
+//             h.Password("guest");
+//         });
+//     });
+// });
 
 // API versioning
 // https://www.milanjovanovic.tech/blog/api-versioning-in-aspnetcore

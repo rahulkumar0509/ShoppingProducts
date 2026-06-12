@@ -30,7 +30,7 @@ public class ProductControllerTest: IClassFixture<CustomWebApplicationFactory>
     public async Task AddProduct_ReturnSuccess()
     {
         // ARRANGE 
-        var product = new Product {Name = "laptop", Description = "Macbook Pro Max", Price = 150000};
+        var product = new Product {Name = "laptop", Description = "Macbook Pro Max", Price = 150000, BrandId = new Guid()};
 
         // ACT
         var response = await httpClient.PostAsJsonAsync("/API/v1/Product", product);
